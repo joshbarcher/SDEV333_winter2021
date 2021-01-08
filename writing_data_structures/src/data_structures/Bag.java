@@ -37,19 +37,26 @@ public class Bag implements Collection
     @Override
     public boolean contains(Object element)
     {
+        for (int i = 0; i < nextIndex; i++)
+        {
+            if (data[i].equals(element))
+            {
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public int size()
     {
-        return 0;
+        return nextIndex;
     }
 
     @Override
     public boolean isEmpty()
     {
-        return false;
+        return nextIndex == 0;
     }
 
     @Override
