@@ -2,26 +2,26 @@ package interfaces;
 
 import java.util.Iterator;
 
-public interface Collection
+public interface Collection<T>
 {
 	//basic methods
-	public boolean add(Object element);
-	public boolean remove(Object element);
-	public boolean contains(Object element);
+	public boolean add(T element);
+	public boolean remove(T element);
+	public boolean contains(T element);
 	public void clear();
 	public int size();
 	public boolean isEmpty();
 	
 	//set methods
-	public boolean addAll(Collection other);
-	public boolean containsAll(Collection other);
-	public boolean removeAll(Collection other);
-	public boolean retainAll(Collection other);
+	public boolean addAll(Collection<T> other);
+	public boolean containsAll(Collection<T> other);
+	public boolean removeAll(Collection<T> other);
+	public boolean retainAll(Collection<T> other);
 	
 	//misc methods
 	public boolean equals(Object other);
 	public int hashcode();
 	public Iterator iterator();
-	public Object[] toArray();
+	public T[] toArray();
 }
 

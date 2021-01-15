@@ -4,9 +4,9 @@ import interfaces.Collection;
 
 import java.util.Iterator;
 
-public class Bag implements Collection
+public class Bag<T> implements Collection<T>
 {
-    private Object[] data;
+    private T[] data;
 
     //this is the index where the next element is added to the bag
     private int nextIndex = 0;
@@ -18,11 +18,11 @@ public class Bag implements Collection
             throw new IllegalArgumentException("Capacity must be positive");
         }
 
-        data = new Object[capacity];
+        data = (T[]) new Object[10];
     }
 
     @Override
-    public boolean add(Object element)
+    public boolean add(T element)
     {
         //precondition (is the bag full?)
         if (nextIndex == data.length)
@@ -35,7 +35,7 @@ public class Bag implements Collection
     }
 
     @Override
-    public boolean contains(Object element)
+    public boolean contains(T element)
     {
         for (int i = 0; i < nextIndex; i++)
         {
@@ -66,31 +66,31 @@ public class Bag implements Collection
     }
 
     @Override
-    public boolean remove(Object element)
+    public boolean remove(T element)
     {
         return false;
     }
 
     @Override
-    public boolean addAll(Collection other)
+    public boolean addAll(Collection<T> other)
     {
         throw new UnsupportedOperationException("Operation not supported");
     }
 
     @Override
-    public boolean containsAll(Collection other)
+    public boolean containsAll(Collection<T> other)
     {
         throw new UnsupportedOperationException("Operation not supported");
     }
 
     @Override
-    public boolean removeAll(Collection other)
+    public boolean removeAll(Collection<T> other)
     {
         throw new UnsupportedOperationException("Operation not supported");
     }
 
     @Override
-    public boolean retainAll(Collection other)
+    public boolean retainAll(Collection<T> other)
     {
         throw new UnsupportedOperationException("Operation not supported");
     }
@@ -108,7 +108,7 @@ public class Bag implements Collection
     }
 
     @Override
-    public Object[] toArray()
+    public T[] toArray()
     {
         throw new UnsupportedOperationException("Operation not supported");
     }

@@ -9,7 +9,8 @@ public class UseTheBag
     public static void main(String[] args)
     {
         //create a bag
-        Bag myBag = new Bag(10);
+        Bag<Integer> myBag = new Bag<>(10);
+        myBag.add(20);
 
         //test the size of our bag
         System.out.println("Num elements in bag: " + myBag.size());
