@@ -4,7 +4,7 @@ import interfaces.Collection;
 
 import java.util.Iterator;
 
-public class Bag<T> implements Collection<T>
+public class Bag<T> implements Collection<T>, Iterable<T>
 {
     private T[] data;
 
@@ -72,6 +72,12 @@ public class Bag<T> implements Collection<T>
     }
 
     @Override
+    public Iterator<T> iterator()
+    {
+        return new BagIterator();
+    }
+
+    @Override
     public boolean addAll(Collection<T> other)
     {
         throw new UnsupportedOperationException("Operation not supported");
@@ -102,14 +108,47 @@ public class Bag<T> implements Collection<T>
     }
 
     @Override
-    public Iterator iterator()
-    {
-        throw new UnsupportedOperationException("Operation not supported");
-    }
-
-    @Override
     public T[] toArray()
     {
         throw new UnsupportedOperationException("Operation not supported");
     }
+
+    private class BagIterator implements Iterator<T>
+    {
+        //this is the index of the next element to return from the iterator!
+        private int current;
+
+        public BagIterator()
+        {
+            current = 0;
+        }
+
+        @Override
+        public boolean hasNext()
+        {
+            //return true if the element at index "current" is not null
+            return data[current] != null;
+        }
+
+        @Override
+        public T next()
+        {
+            //return the next element in the iteration and prepare for
+            //the element after that one
+            T result = data[current];
+            current++;
+            return result;
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+

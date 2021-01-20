@@ -21,7 +21,7 @@ public interface Collection<T>
 	//misc methods
 	public boolean equals(Object other);
 	public int hashcode();
-	public Iterator iterator();
+	public Iterator<T> iterator();
 	public T[] toArray();
 }
 
