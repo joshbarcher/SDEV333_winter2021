@@ -2,6 +2,7 @@ package data_structures;
 
 import interfaces.Collection;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 public class Bag<T> implements Collection<T>, Iterable<T>
@@ -10,6 +11,9 @@ public class Bag<T> implements Collection<T>, Iterable<T>
 
     //this is the index where the next element is added to the bag
     private int nextIndex = 0;
+
+    //this counter keeps track of the number of changes in the structure
+    private int modCount = 0;
 
     public Bag(int capacity)
     {
@@ -31,6 +35,7 @@ public class Bag<T> implements Collection<T>, Iterable<T>
         }
 
         data[nextIndex++] = element;
+        modCount++;
         return true;
     }
 
@@ -62,19 +67,24 @@ public class Bag<T> implements Collection<T>, Iterable<T>
     @Override
     public void clear()
     {
+        modCount++;
 
+        //remove all elements...
     }
 
     @Override
     public boolean remove(T element)
     {
+        modCount++;
+
+        //remove the element...
         return false;
     }
 
     @Override
     public Iterator<T> iterator()
     {
-        return new BagIterator();
+        return new BagIterator(modCount);
     }
 
     @Override
@@ -117,27 +127,43 @@ public class Bag<T> implements Collection<T>, Iterable<T>
     {
         //this is the index of the next element to return from the iterator!
         private int current;
+        private int savedModCount;
 
-        public BagIterator()
+        public BagIterator(int modCount)
         {
             current = 0;
+            savedModCount = modCount;
         }
 
         @Override
         public boolean hasNext()
         {
+            checkConcurrentChanges();
+
             //return true if the element at index "current" is not null
-            return data[current] != null;
+            return current < data.length && data[current] != null;
         }
 
         @Override
         public T next()
         {
+            checkConcurrentChanges();
+
             //return the next element in the iteration and prepare for
             //the element after that one
             T result = data[current];
             current++;
             return result;
+        }
+
+        private void checkConcurrentChanges()
+        {
+            //if the modification count has deviated...
+            if (modCount != savedModCount)
+            {
+                throw new ConcurrentModificationException(
+                        "You cannot change the structure while iterating");
+            }
         }
     }
 }
