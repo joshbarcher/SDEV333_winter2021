@@ -28,23 +28,27 @@ public class BinarySearchTree<T extends Comparable<T>> implements ISearchTree<T>
     }
 
     //this recursive method will add a new Node object recursively
-    public Node add(Node current, T element)
+    private Node add(Node current, T element)
     {
+        //if we encounter an spot for the element, then add it
+        if (current == null)
+        {
+            size++;
+            modCount++; //a change was made...
+            return new Node(element);
+        }
+
+        //traverse down the tree
         int comparison = current.data.compareTo(element);
-        if (comparison == 0) //duplicate!
+        if (comparison < 0) //go to the right!
         {
-            return current; //no change...
+            current.right = add(current.right, element);
         }
-        else if (comparison < 0) //go to the right!
+        else if (comparison > 0) //go to the left
         {
-
+            current.left = add(current.left, element);
         }
-        else //if (comparison > 0) //go to the left
-        {
-
-        }
-
-        return null;
+        return current;
     }
 
     @Override
