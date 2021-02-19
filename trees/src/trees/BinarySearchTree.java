@@ -57,6 +57,42 @@ public class BinarySearchTree<T extends Comparable<T>> implements ISearchTree<T>
         return false;
     }
 
+    private boolean contains(Node current, T element)
+    {
+        if (current == null)
+        {
+            //didn't find it!
+            return false;
+        }
+
+        //otherwise search for it!
+        int comparison = current.data.compareTo(element);
+        if (comparison == 0)
+        {
+            return true;
+        }
+        else if (comparison < 0) //look to the right
+        {
+            return contains(current.right, element);
+        }
+        else //if (comparison > 0)
+        {
+            return contains(current.left, element);
+        }
+    }
+
+    @Override
+    public T min()
+    {
+        return null;
+    }
+
+    @Override
+    public T max()
+    {
+        return null;
+    }
+
     @Override
     public int size()
     {
@@ -79,18 +115,6 @@ public class BinarySearchTree<T extends Comparable<T>> implements ISearchTree<T>
     public boolean remove(T element)
     {
         return false;
-    }
-
-    @Override
-    public T min()
-    {
-        return null;
-    }
-
-    @Override
-    public T max()
-    {
-        return null;
     }
 
     @Override
