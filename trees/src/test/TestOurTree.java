@@ -8,12 +8,15 @@ public class TestOurTree
     {
         //add a tree with elements to add
         BinarySearchTree<Integer> numTree = new BinarySearchTree<>();
-        int[] elemsToAdd = {25, 11, 77, 69, 3, 50, 39, 55, 99, 42};
+        int[] elemsToAdd = {13, 7, 15, 2, 8, 21, 11, 9};
 
         //add them
         for (int elem : elemsToAdd)
         {
             numTree.add(elem);
         }
+
+        System.out.println(numTree.remove(2));
+        System.out.println(numTree.size());
     }
 }

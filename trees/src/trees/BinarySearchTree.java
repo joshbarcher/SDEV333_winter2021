@@ -84,7 +84,71 @@ public class BinarySearchTree<T extends Comparable<T>> implements ISearchTree<T>
     @Override
     public boolean remove(T element)
     {
-        return false;
+        //tree empty?
+        if (root == null)
+        {
+            return false;
+        }
+
+        //start our search at the root
+        root = remove(root, element);
+        return true;
+    }
+
+    //move down the tree and remove the element if found...
+    private Node remove(Node current, T element)
+    {
+        //if we reach a leaf in the tree
+        if (current == null)
+        {
+            return null; //not found!
+        }
+
+        //search for the element
+        int comparison = current.data.compareTo(element);
+        if (comparison == 0) //we found it!
+        {
+            //no children
+            if (current.left == null && current.right == null)
+            {
+                size--;
+                return null;
+            }
+            //two children (yikes!)
+            else if (current.left != null && current.right != null)
+            {
+                //find the maximum in the left subtree
+                T max = max(current.left);
+
+                //replace the data in the current node
+                current.data = max;
+
+                //remove the node containing the maximum in the left subtree
+                remove(current.left, max);
+                //size--; //don't need this, it will happen in the recursive remove()
+            }
+            //one child (left)
+            else if (current.left != null)
+            {
+                size--;
+                return current.left;
+            }
+            //one child (right)
+            else //if (current.right != null)
+            {
+                size--;
+                return current.right;
+            }
+        }
+        else if (comparison < 0) //go to the right reference
+        {
+            current.right = remove(current.right, element);
+        }
+        else //if (comparison > 0) //go to the left reference
+        {
+            current.left = remove(current.left, element);
+        }
+        return current;
     }
 
     @Override
