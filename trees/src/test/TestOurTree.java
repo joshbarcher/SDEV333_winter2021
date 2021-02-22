@@ -16,7 +16,22 @@ public class TestOurTree
             numTree.add(elem);
         }
 
-        System.out.println(numTree.remove(2));
+        System.out.println(numTree.remove(7));
+        System.out.println(numTree.remove(13));
+        System.out.println(numTree.remove(9));
+        System.out.println(numTree.remove(0));
         System.out.println(numTree.size());
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+

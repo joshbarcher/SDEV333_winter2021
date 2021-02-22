@@ -22,8 +22,14 @@ public class BinarySearchTree<T extends Comparable<T>> implements ISearchTree<T>
         else //move down the tree and place the new element
         {
             //start my search at the root
+            int savedSize = size;
             root = add(root, element);
-            return true;
+            if (savedSize != size)
+            {
+                modCount++;
+                return true;
+            }
+            return false;
         }
     }
 
@@ -91,8 +97,14 @@ public class BinarySearchTree<T extends Comparable<T>> implements ISearchTree<T>
         }
 
         //start our search at the root
+        int savedSize = size;
         root = remove(root, element);
-        return true;
+        if (savedSize != size)
+        {
+            modCount++;
+            return true;
+        }
+        return false;
     }
 
     //move down the tree and remove the element if found...
@@ -124,7 +136,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements ISearchTree<T>
                 current.data = max;
 
                 //remove the node containing the maximum in the left subtree
-                remove(current.left, max);
+                current.left = remove(current.left, max);
                 //size--; //don't need this, it will happen in the recursive remove()
             }
             //one child (left)
@@ -198,19 +210,20 @@ public class BinarySearchTree<T extends Comparable<T>> implements ISearchTree<T>
     @Override
     public int size()
     {
-        return 0;
+        return size;
     }
 
     @Override
     public boolean isEmpty()
     {
-        return false;
+        return size == 0;
     }
 
     @Override
     public void clear()
     {
-
+        root = null;
+        size = 0;
     }
 
     @Override
