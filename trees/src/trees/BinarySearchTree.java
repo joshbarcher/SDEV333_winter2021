@@ -90,13 +90,45 @@ public class BinarySearchTree<T extends Comparable<T>> implements ISearchTree<T>
     @Override
     public T min()
     {
-        return null;
+        //if there is no minimum...
+        if (root == null)
+        {
+            return null;
+        }
+
+        return min(root);
+    }
+
+    private T min(Node current)
+    {
+        if (current.left == null)
+        {
+            return current.data;
+        }
+        //if this is not the smallest, move left!
+        return min(current.left);
     }
 
     @Override
     public T max()
     {
-        return null;
+        //if there is no minimum...
+        if (root == null)
+        {
+            return null;
+        }
+
+        return max(root);
+    }
+
+    private T max(Node current)
+    {
+        if (current.right == null)
+        {
+            return current.data;
+        }
+        //if this is not the largest, move right!
+        return max(current.right);
     }
 
     @Override
