@@ -54,7 +54,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements ISearchTree<T>
     @Override
     public boolean contains(T element)
     {
-        return false;
+        return contains(root, element);
     }
 
     private boolean contains(Node current, T element)
@@ -79,6 +79,12 @@ public class BinarySearchTree<T extends Comparable<T>> implements ISearchTree<T>
         {
             return contains(current.left, element);
         }
+    }
+
+    @Override
+    public boolean remove(T element)
+    {
+        return false;
     }
 
     @Override
@@ -109,12 +115,6 @@ public class BinarySearchTree<T extends Comparable<T>> implements ISearchTree<T>
     public void clear()
     {
 
-    }
-
-    @Override
-    public boolean remove(T element)
-    {
-        return false;
     }
 
     @Override
