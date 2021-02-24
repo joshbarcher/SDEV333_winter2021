@@ -2,6 +2,8 @@ package test;
 
 import trees.BinarySearchTree;
 
+import java.util.List;
+
 public class TestOurTree
 {
     public static void main(String[] args)
@@ -16,11 +18,17 @@ public class TestOurTree
             numTree.add(elem);
         }
 
-        System.out.println(numTree.remove(7));
+        /*System.out.println(numTree.remove(7));
         System.out.println(numTree.remove(13));
         System.out.println(numTree.remove(9));
         System.out.println(numTree.remove(0));
-        System.out.println(numTree.size());
+        System.out.println(numTree.size());*/
+
+        List<Integer> traversal = numTree.inOrder();
+        for (int num : traversal)
+        {
+            System.out.println(num);
+        }
     }
 }
 

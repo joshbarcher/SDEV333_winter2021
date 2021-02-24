@@ -1,6 +1,8 @@
 package trees;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class BinarySearchTree<T extends Comparable<T>> implements ISearchTree<T>
 {
@@ -236,6 +238,52 @@ public class BinarySearchTree<T extends Comparable<T>> implements ISearchTree<T>
     public int treeHeight()
     {
         return 0;
+    }
+
+    //traversal order LNR
+    public List<T> inOrder()
+    {
+        List<T> traversal = new ArrayList<>();
+        inOrder(root, traversal);
+        return traversal;
+    }
+
+    private void inOrder(Node current, List<T> traversal)
+    {
+        if (current == null)
+        {
+            return; //exit!
+        }
+
+        //left, node, right
+        inOrder(current.left, traversal);   //L
+        traversal.add(current.data);        //N
+        inOrder(current.right, traversal);  //R
+    }
+
+    public List<T> preOrder()
+    {
+        List<T> traversal = new ArrayList<>();
+        inOrder(root, traversal);
+        return traversal;
+    }
+
+    private void preOrder(Node current, List<T> traversal)
+    {
+        if (current == null)
+        {
+            return; //exit!
+        }
+
+        //left, node, right
+        traversal.add(current.data);        //N
+        inOrder(current.left, traversal);   //L
+        inOrder(current.right, traversal);  //R
+    }
+
+    public List<T> postOrder()
+    {
+        return null;
     }
 
     @Override
