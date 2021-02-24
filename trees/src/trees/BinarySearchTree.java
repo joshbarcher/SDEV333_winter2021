@@ -1,8 +1,6 @@
 package trees;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class BinarySearchTree<T extends Comparable<T>> implements ISearchTree<T>
 {
@@ -264,7 +262,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements ISearchTree<T>
     public List<T> preOrder()
     {
         List<T> traversal = new ArrayList<>();
-        inOrder(root, traversal);
+        preOrder(root, traversal);
         return traversal;
     }
 
@@ -276,24 +274,118 @@ public class BinarySearchTree<T extends Comparable<T>> implements ISearchTree<T>
         }
 
         //left, node, right
-        traversal.add(current.data);        //N
-        inOrder(current.left, traversal);   //L
-        inOrder(current.right, traversal);  //R
+        traversal.add(current.data);         //N
+        preOrder(current.left, traversal);   //L
+        preOrder(current.right, traversal);  //R
     }
 
     public List<T> postOrder()
     {
-        return null;
+        List<T> traversal = new ArrayList<>();
+        postOrder(root, traversal);
+        return traversal;
+    }
+
+    private void postOrder(Node current, List<T> traversal)
+    {
+        if (current == null)
+        {
+            return; //exit!
+        }
+
+        //left, node, right
+        postOrder(current.left, traversal);   //L
+        postOrder(current.right, traversal);  //R
+        traversal.add(current.data);          //N
     }
 
     @Override
     public Iterator<T> iterator()
     {
-        return null;
+        return new BSTIterator();
     }
 
     //inner classes...
-    public class Node
+    private class BSTIterator implements Iterator<T>
+    {
+        private Stack<Node> stack;
+
+        public BSTIterator()
+        {
+            stack = new Stack<>();
+
+            //move to the first node to be returned...
+            Node current = root;
+            while (current != null)
+            {
+                stack.push(current);
+                current = current.left;
+            }
+        }
+
+        @Override
+        public boolean hasNext()
+        {
+            return !stack.isEmpty();
+        }
+
+        @Override
+        public T next()
+        {
+            //save the top element of the stack, to return as the
+            //next part of the traversal
+            Node current = stack.pop();
+            T result = current.data;
+
+            //then I'm going to add elements to the stack, starting
+            //at the right child
+            current = current.right;
+            while (current != null)
+            {
+                stack.push(current);
+                current = current.left;
+            }
+            return result;
+        }
+    }
+
+    private class NaiveIterator implements Iterator<T>
+    {
+        private List<T> elements;
+        private int currentIndex = 0;
+        private int savedModCount;
+
+        public NaiveIterator()
+        {
+            elements = inOrder();
+            savedModCount = modCount;
+        }
+
+        @Override
+        public boolean hasNext()
+        {
+            concurrentChangesCheck();
+            return currentIndex < elements.size();
+        }
+
+        @Override
+        public T next()
+        {
+            concurrentChangesCheck();
+            return elements.get(currentIndex++);
+        }
+
+        private void concurrentChangesCheck()
+        {
+            if (savedModCount != modCount)
+            {
+                throw new ConcurrentModificationException(
+                    "Cannot alter the tree while iterating");
+            }
+        }
+    }
+
+    private class Node
     {
         private T data;
         private Node left;

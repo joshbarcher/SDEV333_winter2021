@@ -24,8 +24,13 @@ public class TestOurTree
         System.out.println(numTree.remove(0));
         System.out.println(numTree.size());*/
 
-        List<Integer> traversal = numTree.inOrder();
+        /*List<Integer> traversal = numTree.preOrder();
         for (int num : traversal)
+        {
+            System.out.println(num);
+        }*/
+
+        for (int num : numTree)
         {
             System.out.println(num);
         }
