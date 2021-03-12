@@ -8,6 +8,9 @@ package tables;
  */
 public class HashTable<T>
 {
+    private static final int DEFAULT_TABLE_SIZE = 10;
+    private static final double MAX_LOAD_FACTOR = 0.6;
+
     private Element[] table;
     private int size;
 
@@ -16,7 +19,7 @@ public class HashTable<T>
      */
     public HashTable()
     {
-        table = (Element[]) new Object[10];
+        table = new Element[DEFAULT_TABLE_SIZE];
     }
 
     /**
@@ -26,7 +29,7 @@ public class HashTable<T>
      */
     public HashTable(int size)
     {
-        table = (Element[]) new Object[size];
+        table = new Element[size];
     }
 
     /**
@@ -39,7 +42,7 @@ public class HashTable<T>
     {
         //if we have exceeded our load factor, resize...
         double loadFactor = (double)size / table.length;
-        if (loadFactor >= 0.6)
+        if (loadFactor >= MAX_LOAD_FACTOR)
         {
             resize();
         }
@@ -51,7 +54,13 @@ public class HashTable<T>
         //find a spot for the element, if not already present
         while (table[index] != null)
         {
+            if (table[index].data.equals(element)) //current element is a duplicate
+            {
+                return false;
+            }
 
+            //move to the next index in the table
+            index = (index + 1) % table.length;
         }
 
         //assign the empty spot
@@ -62,7 +71,21 @@ public class HashTable<T>
 
     private void resize()
     {
-        //TODO write this later
+        //save the old table, make a new table, double the size
+        Element[] oldTable = table;
+        table = new Element[oldTable.length * 2];
+
+        //set size to zero, the calls to add() below will move size back to the original value
+        size = 0;
+
+        //loop over elements in the old table, and if not removed, rehash them
+        for (int i = 0; i < oldTable.length; i++)
+        {
+            if (oldTable[i] != null && !oldTable[i].previouslyRemoved)
+            {
+                add((T)oldTable[i].data);
+            }
+        }
     }
 
     /**
@@ -94,15 +117,21 @@ public class HashTable<T>
      * @author Josh Archer
      * @version 1.0
      */
-    private class Element
+    private class Element<T>
     {
         private T data;
-        private boolean removed;
+        private boolean previouslyRemoved;
 
-        public Element(T data, boolean removed)
+        public Element(T data, boolean previouslyRemoved)
         {
             this.data = data;
-            this.removed = removed;
+            this.previouslyRemoved = previouslyRemoved;
+        }
+
+        @Override
+        public String toString()
+        {
+            return data + (previouslyRemoved ? ", removed!" : "");
         }
     }
 }
