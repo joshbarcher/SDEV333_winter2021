@@ -96,6 +96,10 @@ public class HashTable<T>
      */
     public boolean contains(T element)
     {
+        //1: get a hash code and index
+
+        //2: start looping at the provided index (null means the element is not found, otherwise use equals())
+
         return false;
     }
 
@@ -107,6 +111,12 @@ public class HashTable<T>
      */
     public boolean remove(T element)
     {
+        //1: get a hash code and index
+
+        //2: start looping at the provided index (null means the element is not found, otherwise use equals())
+
+        //3: if we found the element, mark as removed
+
         return false;
     }
 
