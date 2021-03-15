@@ -97,9 +97,20 @@ public class HashTable<T>
     public boolean contains(T element)
     {
         //1: get a hash code and index
+        int hashCode = Math.abs(element.hashCode());
+        int index = hashCode % table.length;
 
         //2: start looping at the provided index (null means the element is not found, otherwise use equals())
+        while (table[index] != null)
+        {
+            if (table[index].data.equals(element) && !table[index].previouslyRemoved)
+            {
+                return true;
+            }
 
+            //move to the next index in the table
+            index = (index + 1) % table.length;
+        }
         return false;
     }
 
@@ -112,12 +123,29 @@ public class HashTable<T>
     public boolean remove(T element)
     {
         //1: get a hash code and index
+        int hashCode = Math.abs(element.hashCode());
+        int index = hashCode % table.length;
 
         //2: start looping at the provided index (null means the element is not found, otherwise use equals())
+        while (table[index] != null)
+        {
+            if (table[index].data.equals(element) && !table[index].previouslyRemoved)
+            {
+                //3: if we found the element, mark as removed
+                table[index].previouslyRemoved = true;
+                size--;
+                return true;
+            }
 
-        //3: if we found the element, mark as removed
-
+            //move to the next index in the table
+            index = (index + 1) % table.length;
+        }
         return false;
+    }
+
+    public int size()
+    {
+        return size;
     }
 
     /**
